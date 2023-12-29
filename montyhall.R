@@ -8,4 +8,5 @@ simulate_monty_hall <- function(n = 1000, switch = TRUE) {
 
   print(paste0("Monty Hall Problem simulated ", n, " times!"))
   print(paste0("Strategy: ", ifelse(switch, "Switching", "Never switching")))
+  print(paste0("Wins: ", wins, "/", n, ", or ", round((wins/n)*100, 2), "%"))
 }
