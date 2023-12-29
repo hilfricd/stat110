@@ -20,7 +20,7 @@ simulate_monty_hall <- function(n = 1000, switch = TRUE, n_doors = 3) {
 
       # if more than 1, choose one at random
       if(length(montydoor) > 1) {
-        montydoor <- sample(montydoor, 1)
+        montydoor <- sample(montydoor, n_doors - 2)
       }
       # switch to remaining door
       chosendoor <- doors[-c(1, montydoor)]
@@ -30,5 +30,6 @@ simulate_monty_hall <- function(n = 1000, switch = TRUE, n_doors = 3) {
 
   print(paste0("Monty Hall Problem simulated ", n, " times!"))
   print(paste0("Strategy: ", ifelse(switch, "Switching", "Never switching")))
+  print(paste0("Number of doors: ", n_doors))
   print(paste0("Wins: ", wins, "/", n, ", or ", round((wins/n)*100, 2), "%"))
 }
