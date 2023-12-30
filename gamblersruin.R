@@ -36,3 +36,31 @@ plot_gamblers_ruin <- function(x) {
 }
 
 
+simulate_multiple_gamblers_ruins <- function(n_games, i, N, p_a = 0.5) {
+  results <- tribble(~game_no, ~a_won, ~no_bets)
+
+  for(game in 1:n_games) {
+    round_results <- simulate_gamblers_ruin(i, N, p_a)
+
+    results <- results %>%
+      add_row(
+        game_no = game,
+        a_won = last(round_results) != 0,
+        no_bets = length(round_results) - 1
+      )
+  }
+  return(results)
+}
+
+results <- simulate_multiple_gamblers_ruins(1000, 100, 200, 0.49)
+
+results %>%
+  summarize(
+    no_wins = sum(a_won),
+    frac_wins = round(sum(a_won) / n(), 2),
+    mean_bets = round(mean(no_bets), 2),
+    sd_bets = round(sd(no_bets), 2)
+  )
+
+ggplot(results, aes(no_bets)) +
+  geom_histogram()
