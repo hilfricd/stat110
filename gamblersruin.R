@@ -1,4 +1,6 @@
 library(dplyr)
+library(ggplot2)
+library(ggpmisc)
 
 # simulates one round of gambler's ruin
 # i: wealth of player A at start of game
@@ -17,9 +19,20 @@ simulate_gamblers_ruin <- function(i, N, p_a = 0.5) {
   return(wealth_a)
 }
 
-testrun <- simulate_gamblers_ruin(10, 20, 0.5)
-testresults <- tibble(
-  bet_no = 0:(length(testrun)-1),
-  wealth_a = testrun
-)
+# plots results of one gambler's ruin game
+plot_gamblers_ruin <- function(x) {
+  # turn results into tibble for ggplot2
+  results <- tibble(
+    bet_no = 0:(length(x)-1),
+    wealth_a = x
+  )
+
+  # create plot
+  ggplot(results, aes(bet_no, wealth_a)) +
+    geom_step() +
+    scale_y_continuous(limits = c(0, (results[1,] %>% pull(wealth_a))*2)) +
+    theme_classic() +
+    labs(x = "Bet No.", y = "Wealth of player A")
+}
+
 
