@@ -71,15 +71,17 @@ simulate_multiple_gamblers_ruins <- function(n_games, i, N, p_a = 0.5, verbose =
 }
 
 
-test <- simulate_multiple_gamblers_ruins(50, 99, 200, 0.5, verbose = TRUE)
+# test <- simulate_multiple_gamblers_ruins(10000, 50, 100, 0.49, verbose = TRUE)
+#
+# test %>%
+#   summarize(
+#     no_wins = sum(a_won),
+#     frac_wins = round(sum(a_won) / n(), 2),
+#     mean_bets = round(mean(no_bets), 2),
+#     sd_bets = round(sd(no_bets), 2)
+#   )
+#
+# ggplot(test, aes(no_bets, color = a_won, fill = a_won)) +
+#   geom_density(alpha = 0.3) +
+#   theme_classic()
 
-test %>%
-  summarize(
-    no_wins = sum(a_won),
-    frac_wins = round(sum(a_won) / n(), 2),
-    mean_bets = round(mean(no_bets), 2),
-    sd_bets = round(sd(no_bets), 2)
-  )
-
-ggplot(results, aes(no_bets)) +
-  geom_histogram(color = "white")
