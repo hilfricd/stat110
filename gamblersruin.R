@@ -1,6 +1,5 @@
 library(dplyr)
 library(ggplot2)
-library(ggpmisc)
 
 # simulates one round of gambler's ruin
 # i: wealth of player A at start of game
