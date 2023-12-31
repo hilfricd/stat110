@@ -46,7 +46,7 @@ plot_gamblers_ruin <- function(x, N = NULL) {
 # N: total wealth in each game
 # p_a: probability of A winning each individual bet
 # returns a tibble with the game index, whether A won, and the number of bets in that game
-simulate_multiple_gamblers_ruins <- function(n_games, i, N, p_a = 0.5) {
+simulate_multiple_gamblers_ruins <- function(n_games, i, N, p_a = 0.5, verbose = FALSE) {
   results <- tribble(~game_no, ~a_won, ~no_bets)
 
   for(game in 1:n_games) {
@@ -58,13 +58,22 @@ simulate_multiple_gamblers_ruins <- function(n_games, i, N, p_a = 0.5) {
         a_won = last(round_results) != 0,
         no_bets = length(round_results) - 1
       )
+
+    if(verbose) {
+      print(paste0(
+        "Simulating game ", game, " of ", n_games,
+        ": A ", ifelse(last(round_results) != 0, "Won", "Lost"),
+        " after ", length(round_results) - 1, " rounds."
+      ))
+    }
   }
   return(results)
 }
 
-results <- simulate_multiple_gamblers_ruins(1000, 100, 200, 0.49)
 
-results %>%
+test <- simulate_multiple_gamblers_ruins(50, 99, 200, 0.5, verbose = TRUE)
+
+test %>%
   summarize(
     no_wins = sum(a_won),
     frac_wins = round(sum(a_won) / n(), 2),
@@ -73,4 +82,4 @@ results %>%
   )
 
 ggplot(results, aes(no_bets)) +
-  geom_histogram()
+  geom_histogram(color = "white")
