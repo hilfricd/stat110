@@ -40,6 +40,12 @@ plot_gamblers_ruin <- function(x, N = NULL) {
     labs(x = "Bet No.", y = "Wealth of player A")
 }
 
+# Simulates many games of gambler's ruin with same parameters
+# n_games: Number of Games to simulate
+# i: starting wealth of A in each game
+# N: total wealth in each game
+# p_a: probability of A winning each individual bet
+# returns a tibble with the game index, whether A won, and the number of bets in that game
 simulate_multiple_gamblers_ruins <- function(n_games, i, N, p_a = 0.5) {
   results <- tribble(~game_no, ~a_won, ~no_bets)
 
