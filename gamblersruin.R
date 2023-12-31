@@ -19,7 +19,11 @@ simulate_gamblers_ruin <- function(i, N, p_a = 0.5) {
 }
 
 # plots results of one gambler's ruin game
-plot_gamblers_ruin <- function(x) {
+# x: results from a game
+# N: total wealth in the game
+plot_gamblers_ruin <- function(x, N = NULL) {
+  if(is.null(N)) N <- x[1]*2
+
   # turn results into tibble for ggplot2
   results <- tibble(
     bet_no = 0:(length(x)-1),
@@ -29,11 +33,12 @@ plot_gamblers_ruin <- function(x) {
   # create plot
   ggplot(results, aes(bet_no, wealth_a)) +
     geom_step() +
-    scale_y_continuous(limits = c(0, (results[1,] %>% pull(wealth_a))*2)) +
+    # add horizontal line at starting wealth of A
+    geom_hline(yintercept = x[1], linetype = "dashed") +
+    scale_y_continuous(limits = c(0, N)) +
     theme_classic() +
     labs(x = "Bet No.", y = "Wealth of player A")
 }
-
 
 simulate_multiple_gamblers_ruins <- function(n_games, i, N, p_a = 0.5) {
   results <- tribble(~game_no, ~a_won, ~no_bets)
